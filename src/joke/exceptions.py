@@ -1,0 +1,2 @@
+class JokeProviderError(Exception):
+    pass
