@@ -42,5 +42,5 @@ async def create_summary(request: SummaryRequest):
     except LLMProviderError as exc:
         raise HTTPException(
             status_code=502,
-            detail="Summary generation service unavailable",
+            detail=str(exc) or "Summary generation service unavailable",
         ) from exc

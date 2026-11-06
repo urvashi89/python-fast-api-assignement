@@ -11,7 +11,7 @@ from src.summary.exceptions import LLMProviderError
 async def generate_summary(text: str) -> str:
     api_key = summary_settings.llm_api_key
     if not api_key or AsyncAnthropic is None:
-        raise LLMProviderError()
+        raise LLMProviderError("Claude API key is missing or the Anthropic SDK is unavailable.")
 
     try:
         async with AsyncAnthropic(api_key=api_key, timeout=30.0) as client:
@@ -39,9 +39,9 @@ async def generate_summary(text: str) -> str:
         ).strip()
 
         if not summary:
-            raise LLMProviderError()
+            raise LLMProviderError("Claude returned an empty summary.")
 
         return summary
 
     except APIError as exc:
-        raise LLMProviderError() from exc
+        raise LLMProviderError(str(exc)) from exc
