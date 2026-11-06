@@ -1,22 +1,25 @@
-try:
-    from anthropic import APIError, AsyncAnthropic
-except ImportError:  # pragma: no cover - handled at runtime when dependency is absent
-    APIError = Exception
-    AsyncAnthropic = None
+
+from anthropic import APIError, AsyncAnthropic
 
 from src.summary.config import summary_settings
 from src.summary.exceptions import LLMProviderError
 
 
 async def generate_summary(text: str) -> str:
-    api_key = summary_settings.llm_api_key
-    if not api_key or AsyncAnthropic is None:
-        raise LLMProviderError("Claude API key is missing or the Anthropic SDK is unavailable.")
+
+    api_key = summary_settings.claude_api_key
+
+    if not api_key:
+        raise LLMProviderError("Claude API key is missing.")
 
     try:
-        async with AsyncAnthropic(api_key=api_key, timeout=30.0) as client:
+        async with AsyncAnthropic(
+            api_key=api_key,
+            timeout=30.0,
+        ) as client:
+
             response = await client.messages.create(
-                model=summary_settings.llm_model,
+                model=summary_settings.claude_model,
                 max_tokens=250,
                 messages=[
                     {
@@ -34,8 +37,8 @@ async def generate_summary(text: str) -> str:
 
         summary = "".join(
             block.text
-            for block in getattr(response, "content", [])
-            if getattr(block, "type", None) == "text"
+            for block in response.content
+            if block.type == "text"
         ).strip()
 
         if not summary:
