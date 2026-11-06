@@ -17,8 +17,8 @@ class SummaryConfig(BaseSettings):
     )
     anthropic_api_key: str | None = None
     openai_api_key: str | None = None
-    claude_model: str = "claude-3-5-sonnet-latest"
-    anthropic_model: str = "claude-3-5-sonnet-latest"
+    claude_model: str = "claude-3-5-sonnet-20241022"
+    anthropic_model: str = "claude-3-5-sonnet-20241022"
     openai_model: str = "gpt-4.1-mini"
     max_text_length: int = 10000
 
