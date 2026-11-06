@@ -13,7 +13,7 @@ router = APIRouter(
     tags=["Joke"],
 )
 
- 
+
 @router.get(
     "",
     response_model=JokeResponse,

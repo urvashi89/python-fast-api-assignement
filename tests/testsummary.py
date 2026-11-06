@@ -36,7 +36,9 @@ async def test_create_summary(client: AsyncClient, monkeypatch):
 
 
 @pytest.mark.asyncio
-async def test_create_summary_without_api_key_when_unconfigured(client: AsyncClient, monkeypatch):
+async def test_create_summary_without_api_key_when_unconfigured(
+    client: AsyncClient, monkeypatch
+):
     original_api_key = summary_settings.api_key
     summary_settings.api_key = None
 
